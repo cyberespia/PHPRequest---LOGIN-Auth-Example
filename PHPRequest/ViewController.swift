@@ -77,6 +77,10 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             if self.gusername  == (self.txtUserName.text)!{
                 self.txtResults.text = "Success"
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let balanceViewController = storyBoard.instantiateViewController(withIdentifier: "success") as! LoginViewController
+                balanceViewController.strUsername = self.txtUserName.text
+                self.present(balanceViewController, animated: true, completion: nil)
             }else{
                 self.txtResults.text = "Fail"
             }
