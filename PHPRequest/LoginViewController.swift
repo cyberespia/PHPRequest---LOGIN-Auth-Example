@@ -18,7 +18,7 @@ class LoginViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        lblName.text = "Welcome, \(strUsername!), you have successfully logged in!"
+        lblName.text = "Welcome, \(strUsername!)!"
         // Do any additional setup after loading the view.
     }
     

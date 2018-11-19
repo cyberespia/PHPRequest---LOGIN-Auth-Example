@@ -79,7 +79,7 @@ class ViewController: UIViewController {
                 self.txtResults.text = "Success"
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let balanceViewController = storyBoard.instantiateViewController(withIdentifier: "success") as! LoginViewController
-                balanceViewController.strUsername = self.txtUserName.text
+                balanceViewController.strUsername = self.users.first!.Members_FName // self.txtUserName.text
                 self.present(balanceViewController, animated: true, completion: nil)
             }else{
                 self.txtResults.text = "Fail"
