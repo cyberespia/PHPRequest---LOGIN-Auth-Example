@@ -8,13 +8,19 @@
 import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+
+    
+    //Array
+     var items = [[String:AnyObject]]()
+    var filteredTableData = [[String:AnyObject]]()
     
     //declare codable instance
     var users = [User]()
     
     //declare username
     var gusername: String! = ""
+    
     
     //var names: String?
     
@@ -51,6 +57,24 @@ class ViewController: UIViewController {
     }
     
     
+    @IBOutlet weak var tableView: UITableView!
+    
+ 
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+                let item = items[indexPath.row]
+                let username:String = item["Members_UserName"] as! String
+                //let formattedString = NSMutableAttributedString()
+        cell.textLabel?.text = username
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+        
+    }
     
     
     @IBAction func btnLogin(_ sender: UIButton) {
@@ -66,6 +90,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        getlist()
         self.txtUserName.becomeFirstResponder()
     }
     
@@ -109,6 +134,24 @@ class ViewController: UIViewController {
             }
             task.resume()
         
+    }
+    
+    func getlist(){
+        let url = URL(string: "https://www.ckonkol.com/testapps/json.php")!
+        let urlSession = URLSession.shared
+        
+        let task = urlSession.dataTask(with: url) { (data, response, error) in
+            // JSON parsen und Ergebnis in eine Liste von assoziativen Arrays wandeln
+            let jsonData = try! JSONSerialization.jsonObject(with: data!, options: [])
+            self.items = jsonData as! [[String:AnyObject]]
+            
+            // UI-Darstellung aktualisieren
+            OperationQueue.main.addOperation {
+                  self.tableView.reloadData()
+            }
+        }
+        
+        task.resume()
     }
 
 }
